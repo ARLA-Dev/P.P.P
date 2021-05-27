@@ -1,5 +1,6 @@
 package Vistas;
 
+import BD.OperarLogin;
 import Vistas.paneles.clientes;
 import Vistas.paneles.documentos;
 import Vistas.paneles.listados;
@@ -143,6 +144,11 @@ public class Inicio extends javax.swing.JFrame {
         contra.setFocusPainted(false);
         contra.setFocusable(false);
         contra.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/contrasena2.png"))); // NOI18N
+        contra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contraActionPerformed(evt);
+            }
+        });
         lateral.add(contra, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 580, -1, -1));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
@@ -272,8 +278,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
 
-        if(JOptionPane.showConfirmDialog(null, "¿Desea volver al login?", "Cerrar Sesión", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)== JOptionPane.YES_OPTION){
-        
+        if (JOptionPane.showConfirmDialog(null, "¿Desea volver al login?", "Cerrar Sesión", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
             Login login = new Login();
             login.setVisible(true);
             this.dispose();
@@ -283,57 +289,89 @@ public class Inicio extends javax.swing.JFrame {
 
     private void dolarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dolarActionPerformed
         try {
-            
+
             Desktop.getDesktop().browse(new URL("https://www.instagram.com/enparalelovzla/?hl=es-la").toURI());
         } catch (Exception e) {
-            
+
             e.printStackTrace();
         }
     }//GEN-LAST:event_dolarActionPerformed
 
     private void wsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wsActionPerformed
         try {
-            
+
             Desktop.getDesktop().browse(new URL("https://web.whatsapp.com/").toURI());
         } catch (Exception e) {
-            
+
             e.printStackTrace();
         }
     }//GEN-LAST:event_wsActionPerformed
 
     private void materia_primaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materia_primaActionPerformed
-        
+
         mp.setVisible(true);
-        botones.setVisible(false);     
+        botones.setVisible(false);
     }//GEN-LAST:event_materia_primaActionPerformed
 
     private void clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesActionPerformed
-        
+
         botones.setVisible(false);
         cli.setVisible(true);
-        
+
     }//GEN-LAST:event_clientesActionPerformed
 
     private void productosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productosActionPerformed
-        
+
         botones.setVisible(false);
         produc.setVisible(true);
-        
+
     }//GEN-LAST:event_productosActionPerformed
 
     private void listadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listadosActionPerformed
-        
+
         botones.setVisible(false);
         list.setVisible(true);
-        
+
     }//GEN-LAST:event_listadosActionPerformed
 
     private void documentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documentosActionPerformed
-        
+
         botones.setVisible(false);
         docu.setVisible(true);
-        
+
     }//GEN-LAST:event_documentosActionPerformed
+
+    private void contraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraActionPerformed
+
+        String clave_ant;
+        String clave_nueva;
+        clave_ant = "";
+        clave_nueva = "";
+
+        clave_ant = JOptionPane.showInputDialog(null, "Ingrese la contraseña actual:", "CAMBIO DE CONTRASEÑA", JOptionPane.QUESTION_MESSAGE);
+
+        if (clave_ant.equals("")) {
+
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+
+        } else if (new OperarLogin().Ingresar(clave_ant)) {
+
+            OperarLogin op = new OperarLogin();
+            clave_nueva = JOptionPane.showInputDialog(null, "Ingrese la nueva contraseña:", "CAMBIO DE CONTRASEÑA", JOptionPane.QUESTION_MESSAGE);
+
+            if (clave_nueva.equals("")) {
+
+                JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            }else{
+                op.modificar(clave_ant, clave_nueva);
+            }
+                    
+        } else {
+
+            JOptionPane.showMessageDialog(null, "¡Contraseña Incorrecta!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_contraActionPerformed
 
     public void Inicio() {
 
@@ -357,9 +395,8 @@ public class Inicio extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
-        //</editor-fold>
 
+        //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Inicio().setVisible(true);
@@ -386,13 +423,13 @@ public class Inicio extends javax.swing.JFrame {
         Thread hilo = new Thread(runnable);
         hilo.start();
     }
-    
+
     materia_prima mp;
     clientes cli;
     productos produc;
     listados list;
     documentos docu;
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel botones;
     private javax.swing.JPanel carta;

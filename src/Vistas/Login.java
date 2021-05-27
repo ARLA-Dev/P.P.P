@@ -1,5 +1,9 @@
 package Vistas;
 
+import BD.BDConex;
+import BD.OperarLogin;
+import javax.swing.JOptionPane;
+
 public class Login extends javax.swing.JFrame {
 
     public Login() {
@@ -82,19 +86,32 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        Inicio iniciar = new Inicio();
-        iniciar.Inicio();
-        this.dispose();
+        if(contraseña.getText().equals("")){
+        
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!","¡ERROR!",JOptionPane.ERROR_MESSAGE);
+        }
+        
+        else if (new OperarLogin().Ingresar(contraseña.getText())) {
+            
+            Inicio iniciar = new Inicio();
+            iniciar.Inicio();
+            this.dispose();
+            
+        }else{
+            
+            JOptionPane.showMessageDialog(null, "¡Contraseña Incorrecta!","¡ERROR!",JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         System.exit(0);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void iniciar(){
-        
+    public void iniciar() {
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

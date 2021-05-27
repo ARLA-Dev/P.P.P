@@ -1,12 +1,17 @@
 package Vistas.paneles;
 
+import BD.Desplegable_mp;
+import BD.Modelo;
+import BD.OperarMateriaP;
 import Vistas.Inicio;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class materia_prima extends javax.swing.JPanel {
 
     public materia_prima(JPanel botones) {
-        
+
         initComponents();
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -25,10 +30,10 @@ public class materia_prima extends javax.swing.JPanel {
             java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         this.botones = botones;
+        cargarCB();
         desplegable1.setSelectedIndex(-1);
         desplegable2.setSelectedIndex(0);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -87,7 +92,7 @@ public class materia_prima extends javax.swing.JPanel {
         add(titulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, -1, -1));
 
         desplegable2.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
-        desplegable2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Litros", "Kilos", "Gramos" }));
+        desplegable2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LITRO", "KILO", "GRAMO" }));
         desplegable2.setBorder(null);
         desplegable2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         desplegable2.setOpaque(false);
@@ -104,6 +109,11 @@ public class materia_prima extends javax.swing.JPanel {
         crear.setFocusPainted(false);
         crear.setFocusable(false);
         crear.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/crear2.png"))); // NOI18N
+        crear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearActionPerformed(evt);
+            }
+        });
         add(crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, -1, -1));
 
         modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
@@ -161,22 +171,53 @@ public class materia_prima extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
-        
+
         botones.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_volverActionPerformed
 
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
-        
+
         desplegable1.setSelectedIndex(-1);
         desplegable2.setSelectedIndex(0);
         nombre.setText("");
         precio.setText("");
     }//GEN-LAST:event_limpiarActionPerformed
 
+    private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
+
+        if (nombre.getText().equals("") || precio.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            OperarMateriaP op = new OperarMateriaP();
+            op.Crear(nombre.getText().toUpperCase(), Double.parseDouble(precio.getText()), desplegable2.getSelectedItem().toString());
+            cargarCB();
+            desplegable1.setSelectedIndex(-1);
+        }
+
+    }//GEN-LAST:event_crearActionPerformed
+
     JPanel botones;
 
+    public void cargarCB() {
+
+        desplegable1.removeAllItems();
+        Desplegable_mp lista = new Desplegable_mp();
+        listamp = lista.Desplegable_mp();
+
+        if (listamp.size() > 0) {
+            for (int i = 0; i < listamp.size(); i++) {
+
+                desplegable1.addItem(listamp.get(i).getNombre_mp());
+            }
+        }
+    }
+    
+    ArrayList<Modelo> listamp;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crear;
     private javax.swing.JComboBox<String> desplegable1;
