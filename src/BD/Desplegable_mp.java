@@ -30,6 +30,9 @@ public class Desplegable_mp {
                 while (result.next() == true) {
                     iv = new Modelo();
                     iv.setNombre_mp(result.getString("nombre"));
+                    iv.setPrecio_mp(Double.parseDouble(result.getString("precio")));
+                    iv.setUnidad_medida_mp(result.getString("uni_med"));
+                    iv.setId_mp(Integer.parseInt(result.getString("id")));
                     lista.add(iv);
                 }
             }

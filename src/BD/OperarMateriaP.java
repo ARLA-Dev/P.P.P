@@ -50,14 +50,56 @@ public class OperarMateriaP {
             if (op > 0) {
 
                 correcto = true;
-                JOptionPane.showMessageDialog(null, "La materia prima se registró exitosamente", "¡OPERACIÓN EXITOSA!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "     ¡Creación Exitosa!", "¡OPERACIÓN EXITOSA!", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Ocurrio un Error al registrar la materia prima \n        Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "¡Ocurrio un error en la operación! \n        Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "La materia prima ya está registrada \n          Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "     ¡Registro Existente! \n    Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
         }
         bd.desconectar();
         return correcto;
     }
+
+    public boolean modificar(String nombre, String unidad_medida, int id, double precio, int i) {
+
+        int op = 0;
+        BDConex bd = new BDConex();
+        boolean correcto = false;
+
+        if (i == 0) {
+
+            op = bd.ejecutar("UPDATE materia_prima SET nombre=\"" + nombre + "\",uni_med=\"" + unidad_medida + "\",precio=\"" + precio + "\" WHERE id = " + id);
+
+            if (op > 0) {
+
+                correcto = true;
+                JOptionPane.showMessageDialog(null, "   ¡Modificaión Exitosa!", "¡OPERACIÓN EXITOSA!", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+
+                JOptionPane.showMessageDialog(null, "¡Ocurrio un error en la operación! \n        Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+
+            if (!buscar(nombre)) {
+
+                op = bd.ejecutar("UPDATE materia_prima SET nombre=\"" + nombre + "\",uni_med=\"" + unidad_medida + "\",precio=\"" + precio + "\" WHERE id = " + id);
+
+                if (op > 0) {
+
+                    correcto = true;
+                    JOptionPane.showMessageDialog(null, "   ¡Modificaión Exitosa!", "¡OPERACIÓN EXITOSA!", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error en la operación! \n        Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "     ¡Registro Existente! \n    Intente Nuevamente...", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        bd.desconectar();
+        return correcto;
+    }
+
 }

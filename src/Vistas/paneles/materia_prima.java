@@ -33,6 +33,8 @@ public class materia_prima extends javax.swing.JPanel {
         cargarCB();
         desplegable1.setSelectedIndex(-1);
         desplegable2.setSelectedIndex(0);
+        nombre.setText("");
+        precio.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -77,6 +79,11 @@ public class materia_prima extends javax.swing.JPanel {
         desplegable1.setBorder(null);
         desplegable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         desplegable1.setOpaque(false);
+        desplegable1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                desplegable1ItemStateChanged(evt);
+            }
+        });
         add(desplegable1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 350, -1));
 
         titulo1.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
@@ -123,6 +130,11 @@ public class materia_prima extends javax.swing.JPanel {
         modificar.setFocusPainted(false);
         modificar.setFocusable(false);
         modificar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar2.png"))); // NOI18N
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
         add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 510, -1, -1));
 
         limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/barriendo.png"))); // NOI18N
@@ -196,9 +208,56 @@ public class materia_prima extends javax.swing.JPanel {
             op.Crear(nombre.getText().toUpperCase(), Double.parseDouble(precio.getText()), desplegable2.getSelectedItem().toString());
             cargarCB();
             desplegable1.setSelectedIndex(-1);
+            desplegable2.setSelectedIndex(0);
+            nombre.setText("");
+            precio.setText("");
         }
 
     }//GEN-LAST:event_crearActionPerformed
+
+    private void desplegable1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_desplegable1ItemStateChanged
+
+        if (desplegable1.getSelectedIndex() >= 0) {
+
+            nombre.setText(listamp.get(desplegable1.getSelectedIndex()).getNombre_mp());
+            precio.setText(Double.toString(listamp.get(desplegable1.getSelectedIndex()).getPrecio_mp()));
+            desplegable2.setSelectedItem(listamp.get(desplegable1.getSelectedIndex()).getUnidad_medida_mp());
+            nombre_viejo = listamp.get(desplegable1.getSelectedIndex()).getNombre_mp();
+        }
+    }//GEN-LAST:event_desplegable1ItemStateChanged
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        
+        if(desplegable1.getSelectedIndex() == -1){
+            
+            JOptionPane.showMessageDialog(null, "  ¡No ha hecho una elección!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            
+        }else if(nombre.getText().equals("")||precio.getText().equals("")){
+    
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+        } 
+        else{
+            
+            int i;
+            i = 0;
+            
+            if(nombre_viejo.equals(nombre.getText().toUpperCase())){
+                
+                i = 0;
+            }else{
+                
+                i = 1;
+            }
+            
+            OperarMateriaP op = new OperarMateriaP();
+            op.modificar(nombre.getText().toUpperCase(), desplegable2.getSelectedItem().toString(), listamp.get(desplegable1.getSelectedIndex()).getId_mp(), Double.parseDouble(precio.getText()), i);
+            cargarCB();
+            desplegable1.setSelectedIndex(-1);
+            desplegable2.setSelectedIndex(0);
+            nombre.setText("");
+            precio.setText("");
+        }
+    }//GEN-LAST:event_modificarActionPerformed
 
     JPanel botones;
 
@@ -215,8 +274,9 @@ public class materia_prima extends javax.swing.JPanel {
             }
         }
     }
-    
+
     ArrayList<Modelo> listamp;
+    String nombre_viejo;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crear;
