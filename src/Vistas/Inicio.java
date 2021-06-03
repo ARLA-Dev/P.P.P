@@ -324,12 +324,16 @@ public class Inicio extends javax.swing.JFrame {
 
         botones.setVisible(false);
         produc.setVisible(true);
+        produc.cargarmp();
 
     }//GEN-LAST:event_productosActionPerformed
 
     private void listadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listadosActionPerformed
 
         botones.setVisible(false);
+        list.obtenerMatriz_mp();
+        list.obtenerMatriz_cli();
+        list.obtenerMatriz_pro();
         list.setVisible(true);
 
     }//GEN-LAST:event_listadosActionPerformed

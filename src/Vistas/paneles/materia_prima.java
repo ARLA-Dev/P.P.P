@@ -3,6 +3,7 @@ package Vistas.paneles;
 import BD.Desplegable_mp;
 import BD.Modelo;
 import BD.OperarMateriaP;
+import Principal.Globales;
 import Vistas.Inicio;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -72,6 +73,11 @@ public class materia_prima extends javax.swing.JPanel {
 
         precio.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
         precio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                precioKeyTyped(evt);
+            }
+        });
         add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 350, -1));
 
         desplegable1.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
@@ -259,6 +265,13 @@ public class materia_prima extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_modificarActionPerformed
 
+    private void precioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioKeyTyped
+        
+        char c = evt.getKeyChar();
+        verificar.dinero(c, evt);
+        
+    }//GEN-LAST:event_precioKeyTyped
+
     JPanel botones;
 
     public void cargarCB() {
@@ -277,6 +290,7 @@ public class materia_prima extends javax.swing.JPanel {
 
     ArrayList<Modelo> listamp;
     String nombre_viejo;
+    Globales verificar = new Globales();
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crear;

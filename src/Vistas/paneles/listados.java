@@ -1,7 +1,16 @@
 package Vistas.paneles;
 
+import BD.Modelo;
+import BD.OperarClientes;
+import BD.OperarMateriaP;
+import BD.OperarProducto;
 import Vistas.Inicio;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class listados extends javax.swing.JPanel {
 
@@ -29,6 +38,9 @@ public class listados extends javax.swing.JPanel {
         panel_pateria_prima.setVisible(true);
         panel_clientes.setVisible(false);
         panel_producto.setVisible(false);
+        obtenerMatriz_mp();
+        obtenerMatriz_cli();
+        obtenerMatriz_pro();
     }
 
     @SuppressWarnings("unchecked")
@@ -196,6 +208,8 @@ public class listados extends javax.swing.JPanel {
 
         base.add(panel_producto, "card3");
 
+        panel_clientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         tabla_clientes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tabla_clientes.setFont(new java.awt.Font("Britannic Bold", 0, 14)); // NOI18N
         tabla_clientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -227,11 +241,11 @@ public class listados extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Rif", "Teléfono", "Dirección"
+                "Nombre", "Documento de Identidad", "Teléfono", "Dirección"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -284,6 +298,55 @@ public class listados extends javax.swing.JPanel {
 
     JPanel botones;
 
+    public void obtenerMatriz_mp() {
+
+        OperarMateriaP op = new OperarMateriaP();
+        ArrayList<Modelo> miLista = op.BuscarconMatriz();
+        DefaultTableModel model = (DefaultTableModel) tabla_materia_prima.getModel();
+
+        model.setRowCount(0);
+        for (int i = 0; i < miLista.size(); i++) {
+
+            model.addRow(new Object[]{miLista.get(i).getNombre_mp(), miLista.get(i).getPrecio_mp(), miLista.get(i).getUnidad_medida_mp()});
+        }
+    }
+
+    public void obtenerMatriz_cli() {
+
+        OperarClientes op = new OperarClientes();
+        ArrayList<Modelo> miLista = op.BuscarconMatriz();
+        DefaultTableModel model = (DefaultTableModel) tabla_clientes.getModel();
+
+        model.setRowCount(0);
+        for (int i = 0; i < miLista.size(); i++) {
+
+            model.addRow(new Object[]{miLista.get(i).getNombre_cli(), miLista.get(i).getCi_cli(), miLista.get(i).getTelefono_cli(), miLista.get(i).getDireccion_cli()});
+        }
+    }
+    
+    public void obtenerMatriz_pro() {
+
+        OperarProducto op = new OperarProducto();
+        ArrayList<Modelo> miLista = op.llenar_listdo();
+        DefaultTableModel model = (DefaultTableModel) tabla_productos.getModel();
+        double detal, mayor, condominio;
+        DecimalFormat df = new DecimalFormat("#.0");
+        
+        
+        model.setRowCount(0);
+        for (int i = 0; i < miLista.size(); i++) {
+            
+            detal = 0;
+            mayor = 0;
+            condominio = 0;
+            
+            detal = miLista.get(i).getPrecio_detal();
+            mayor = detal - detal * 0.2;
+            condominio = detal + detal * 0.2;
+            
+            model.addRow(new Object[]{miLista.get(i).getNombre_pro(), detal, mayor, condominio});
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel base;
     private javax.swing.JComboBox<String> desplegable1;

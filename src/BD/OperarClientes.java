@@ -7,18 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class OperarMateriaP {
+public class OperarClientes {
 
     private Modelo modelo = null;
 
-    public boolean buscar(String nombre) {
+    public boolean buscar(String ci) {
 
         ResultSet rs = null;
         BDConex bd = new BDConex();
         boolean resultado;
         resultado = false;
 
-        rs = bd.consultar("SELECT * FROM `materia_prima` WHERE `nombre` = \"" + nombre + "\"");
+        rs = bd.consultar("SELECT * FROM `cliente` WHERE `ci` = \"" + ci + "\"");
 
         try {
             if (rs.first()) {
@@ -35,17 +35,17 @@ public class OperarMateriaP {
         return resultado;
     }
 
-    public boolean Crear(String nombre, double precio, String unidad_medida) {
+    public boolean Crear(String nombre, String tlf, String direccion, String ci) {
 
         int op = 0;
         BDConex bd = new BDConex();
         boolean correcto = false;
         Modelo modelo = null;
 
-        if (!buscar(nombre)) {
+        if (!buscar(ci)) {
 
-            op = bd.ejecutar("INSERT INTO `ppp`.`materia_prima` (`nombre`, `precio`, `uni_med`, `id`) "
-                    + "VALUES ('" + nombre + "', '" + precio + "', '" + unidad_medida + "', NULL);");
+            op = bd.ejecutar("INSERT INTO `ppp`.`cliente` (`nombre`, `telefono`, `direccion`, `ci`) "
+                    + "VALUES ('" + nombre + "', '" + tlf + "', '" + direccion + "', '" + ci + "');");
 
             if (op > 0) {
 
@@ -61,7 +61,7 @@ public class OperarMateriaP {
         return correcto;
     }
 
-    public boolean modificar(String nombre, String unidad_medida, int id, double precio, int i) {
+    public boolean modificar(String nombre, String tlf, String ci, String direccion, int i, String ci_viejo) {
 
         int op = 0;
         BDConex bd = new BDConex();
@@ -69,7 +69,7 @@ public class OperarMateriaP {
 
         if (i == 0) {
 
-            op = bd.ejecutar("UPDATE materia_prima SET nombre=\"" + nombre + "\",uni_med=\"" + unidad_medida + "\",precio=\"" + precio + "\" WHERE id = " + id);
+            op = bd.ejecutar("UPDATE cliente SET nombre=\"" + nombre + "\",telefono=\"" + tlf + "\",direccion=\"" + direccion + "\",ci=\"" + ci + "\" WHERE ci = \"" + ci_viejo + "\"");
 
             if (op > 0) {
 
@@ -82,9 +82,9 @@ public class OperarMateriaP {
 
         } else {
 
-            if (!buscar(nombre)) {
+            if (!buscar(ci)) {
 
-                op = bd.ejecutar("UPDATE materia_prima SET nombre=\"" + nombre + "\",uni_med=\"" + unidad_medida + "\",precio=\"" + precio + "\" WHERE id = " + id);
+                op = bd.ejecutar("UPDATE cliente SET nombre=\"" + nombre + "\",telefono=\"" + tlf + "\",direccion=\"" + direccion + "\",ci=\"" + ci + "\" WHERE ci = \"" + ci_viejo + "\"");
 
                 if (op > 0) {
 
@@ -119,14 +119,14 @@ public class OperarMateriaP {
 
             if (connection != null) {
 
-                result = bd.consultar("SELECT * FROM `materia_prima` ORDER BY nombre");
+                result = bd.consultar("SELECT * FROM `cliente` ORDER BY nombre");
 
                 while (result.next() == true) {
                     iv = new Modelo();
-                    iv.setNombre_mp(result.getString("nombre"));
-                    iv.setPrecio_mp(Double.parseDouble(result.getString("precio")));
-                    iv.setUnidad_medida_mp(result.getString("uni_med"));
-                    iv.setId_mp(Integer.parseInt(result.getString("id")));
+                    iv.setNombre_cli(result.getString("nombre"));
+                    iv.setTelefono_cli(result.getString("telefono"));
+                    iv.setDireccion_cli(result.getString("direccion"));
+                    iv.setCi_cli(result.getString("ci"));
                     lista.add(iv);
                 }
             }

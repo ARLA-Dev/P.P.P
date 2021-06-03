@@ -2,6 +2,7 @@ package Vistas;
 
 import BD.BDConex;
 import BD.OperarLogin;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -33,6 +34,11 @@ public class Login extends javax.swing.JFrame {
 
         contraseña.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
         contraseña.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        contraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                contraseñaKeyReleased(evt);
+            }
+        });
         getContentPane().add(contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 570, 290, 30));
 
         jLabel2.setFont(new java.awt.Font("Britannic Bold", 1, 36)); // NOI18N
@@ -85,21 +91,19 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        if(contraseña.getText().equals("")){
-        
-            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!","¡ERROR!",JOptionPane.ERROR_MESSAGE);
-        }
-        
-        else if (new OperarLogin().Ingresar(contraseña.getText())) {
-            
+
+        if (contraseña.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+        } else if (new OperarLogin().Ingresar(contraseña.getText())) {
+
             Inicio iniciar = new Inicio();
             iniciar.Inicio();
             this.dispose();
-            
-        }else{
-            
-            JOptionPane.showMessageDialog(null, "¡Contraseña Incorrecta!","¡ERROR!",JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "¡Contraseña Incorrecta!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -109,6 +113,27 @@ public class Login extends javax.swing.JFrame {
         System.exit(0);
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void contraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contraseñaKeyReleased
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            if (contraseña.getText().equals("")) {
+
+                JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            } else if (new OperarLogin().Ingresar(contraseña.getText())) {
+
+                Inicio iniciar = new Inicio();
+                iniciar.Inicio();
+                this.dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, "¡Contraseña Incorrecta!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+    }//GEN-LAST:event_contraseñaKeyReleased
 
     public void iniciar() {
 

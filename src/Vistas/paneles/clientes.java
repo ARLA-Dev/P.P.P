@@ -1,12 +1,20 @@
 package Vistas.paneles;
 
+import BD.Desplegable_cliente;
+import BD.Desplegable_mp;
+import BD.Modelo;
+import BD.OperarClientes;
+import Principal.Globales;
 import Vistas.Inicio;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import jdk.nashorn.internal.objects.Global;
 
 public class clientes extends javax.swing.JPanel {
 
     public clientes(JPanel botones) {
-        
+
         initComponents();
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -25,10 +33,14 @@ public class clientes extends javax.swing.JPanel {
             java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         this.botones = botones;
+        cargarCB();
+        nombre.setText("");
+        direccion.setText("");
+        tlf.setText("");
+        rif.setText("");
         desplegable1.setSelectedIndex(-1);
         desplegable2.setSelectedIndex(0);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -67,10 +79,14 @@ public class clientes extends javax.swing.JPanel {
         add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 350, -1));
 
         desplegable1.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
-        desplegable1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fulano", "Mengano", "Zutano" }));
         desplegable1.setBorder(null);
         desplegable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         desplegable1.setOpaque(false);
+        desplegable1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                desplegable1ItemStateChanged(evt);
+            }
+        });
         add(desplegable1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 350, -1));
 
         titulo1.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
@@ -82,8 +98,8 @@ public class clientes extends javax.swing.JPanel {
         add(titulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, -1, -1));
 
         titulo3.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
-        titulo3.setText("Rif");
-        add(titulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, -1, -1));
+        titulo3.setText("Documento de Identidad");
+        add(titulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, -1, -1));
 
         titulo4.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
         titulo4.setText("Dirección");
@@ -96,6 +112,11 @@ public class clientes extends javax.swing.JPanel {
         crear.setFocusPainted(false);
         crear.setFocusable(false);
         crear.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/crear2.png"))); // NOI18N
+        crear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearActionPerformed(evt);
+            }
+        });
         add(crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, -1, -1));
 
         modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
@@ -105,6 +126,11 @@ public class clientes extends javax.swing.JPanel {
         modificar.setFocusPainted(false);
         modificar.setFocusable(false);
         modificar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar2.png"))); // NOI18N
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
         add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 490, -1, -1));
 
         limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/barriendo.png"))); // NOI18N
@@ -156,7 +182,7 @@ public class clientes extends javax.swing.JPanel {
         desplegable2.setBorder(null);
         desplegable2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         desplegable2.setOpaque(false);
-        add(desplegable2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 50, -1));
+        add(desplegable2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, 50, -1));
 
         nombre.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
         nombre.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -164,7 +190,12 @@ public class clientes extends javax.swing.JPanel {
 
         rif.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
         rif.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        add(rif, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 310, 290, 30));
+        rif.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                rifKeyTyped(evt);
+            }
+        });
+        add(rif, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 290, 30));
 
         titulo8.setFont(new java.awt.Font("Britannic Bold", 0, 24)); // NOI18N
         titulo8.setText("Teléfono");
@@ -172,18 +203,23 @@ public class clientes extends javax.swing.JPanel {
 
         tlf.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
         tlf.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tlf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tlfKeyTyped(evt);
+            }
+        });
         add(tlf, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, 350, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
-        
+
         botones.setVisible(true);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_volverActionPerformed
 
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
-        
+
         desplegable1.setSelectedIndex(-1);
         desplegable2.setSelectedIndex(0);
         direccion.setText("");
@@ -192,8 +228,117 @@ public class clientes extends javax.swing.JPanel {
         nombre.setText("");
     }//GEN-LAST:event_limpiarActionPerformed
 
+    private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
+
+        if (nombre.getText().equals("") || rif.getText().equals("") || tlf.getText().equals("") || direccion.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            OperarClientes op = new OperarClientes();
+            op.Crear(nombre.getText().toUpperCase(), tlf.getText().toUpperCase(), direccion.getText().toUpperCase(), desplegable2.getSelectedItem().toString() + "" + rif.getText());
+            cargarCB();
+            desplegable1.setSelectedIndex(-1);
+            desplegable2.setSelectedIndex(0);
+            direccion.setText("");
+            tlf.setText("");
+            rif.setText("");
+            nombre.setText("");
+        }
+
+    }//GEN-LAST:event_crearActionPerformed
+
+    private void desplegable1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_desplegable1ItemStateChanged
+
+        if (desplegable1.getSelectedIndex() >= 0) {
+
+            nombre.setText(lista_cli.get(desplegable1.getSelectedIndex()).getNombre_cli());
+            tlf.setText((lista_cli.get(desplegable1.getSelectedIndex()).getTelefono_cli()));
+            direccion.setText((lista_cli.get(desplegable1.getSelectedIndex()).getDireccion_cli()));
+            ci_viejo = lista_cli.get(desplegable1.getSelectedIndex()).getCi_cli();
+
+            String letra;
+            letra = lista_cli.get(desplegable1.getSelectedIndex()).getCi_cli();
+            letra = letra.substring(0, 2);
+            desplegable2.setSelectedItem(letra);
+            letra = lista_cli.get(desplegable1.getSelectedIndex()).getCi_cli();
+            letra = letra.substring(2);
+            rif.setText(letra);
+        }
+
+    }//GEN-LAST:event_desplegable1ItemStateChanged
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+
+        if (desplegable1.getSelectedIndex() == -1) {
+
+            JOptionPane.showMessageDialog(null, "  ¡No ha hecho una elección!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+
+        } else if (nombre.getText().equals("") || tlf.getText().equals("") || direccion.getText().equals("") || rif.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            int i;
+            i = 0;
+
+            if (ci_viejo.equals(desplegable2.getSelectedItem().toString() + "" + rif.getText().toUpperCase())) {
+
+                i = 0;
+            } else {
+
+                i = 1;
+            }
+
+            OperarClientes op = new OperarClientes();
+            op.modificar(nombre.getText().toUpperCase(), tlf.getText().toUpperCase(), desplegable2.getSelectedItem().toString() + "" + rif.getText().toUpperCase(), direccion.getText().toUpperCase(), i, ci_viejo);
+            cargarCB();
+            desplegable1.setSelectedIndex(-1);
+            desplegable2.setSelectedIndex(0);
+            direccion.setText("");
+            tlf.setText("");
+            rif.setText("");
+            nombre.setText("");
+        }
+    }//GEN-LAST:event_modificarActionPerformed
+
+    private void rifKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rifKeyTyped
+        
+        char c = evt.getKeyChar();
+        verificar.soloNumeros(c, evt);
+        verificar.validarLongitud(rif, 9, evt);
+        
+    }//GEN-LAST:event_rifKeyTyped
+
+    private void tlfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tlfKeyTyped
+        
+        char c = evt.getKeyChar();
+        verificar.soloNumeros(c, evt);
+        verificar.validarLongitud(tlf, 10, evt);
+        
+    }//GEN-LAST:event_tlfKeyTyped
+
     JPanel botones;
 
+    public void cargarCB() {
+
+        desplegable1.removeAllItems();
+        Desplegable_cliente lista = new Desplegable_cliente();
+        lista_cli = lista.Desplegable_cliente();
+
+        if (lista_cli.size() > 0) {
+            for (int i = 0; i < lista_cli.size(); i++) {
+
+                desplegable1.addItem(lista_cli.get(i).getNombre_cli());
+            }
+        }
+    }
+
+    ArrayList<Modelo> lista_cli;
+    String ci_viejo;
+    Globales verificar = new Globales();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crear;
     private javax.swing.JComboBox<String> desplegable1;
