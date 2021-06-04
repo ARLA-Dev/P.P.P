@@ -341,8 +341,8 @@ public class listados extends javax.swing.JPanel {
             condominio = 0;
             
             detal = miLista.get(i).getPrecio_detal();
-            mayor = detal - detal * 0.2;
-            condominio = detal + detal * 0.2;
+            mayor = detal - detal * 0.1;
+            condominio = detal + detal * 0.1;
             
             model.addRow(new Object[]{miLista.get(i).getNombre_pro(), df.format(detal)+"$", df.format(mayor)+"$ ("+ miLista.get(i).getCantida_mayor()+" "+ miLista.get(i).getUni_med() +")", df.format(condominio)+"$"});
         }
