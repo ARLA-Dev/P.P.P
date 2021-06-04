@@ -325,7 +325,7 @@ public class listados extends javax.swing.JPanel {
     }
     
     public void obtenerMatriz_pro() {
-
+        
         OperarProducto op = new OperarProducto();
         ArrayList<Modelo> miLista = op.llenar_listdo();
         DefaultTableModel model = (DefaultTableModel) tabla_productos.getModel();
@@ -344,7 +344,7 @@ public class listados extends javax.swing.JPanel {
             mayor = detal - detal * 0.2;
             condominio = detal + detal * 0.2;
             
-            model.addRow(new Object[]{miLista.get(i).getNombre_pro(), detal, mayor, condominio});
+            model.addRow(new Object[]{miLista.get(i).getNombre_pro(), df.format(detal)+"$", df.format(mayor)+"$ ("+ miLista.get(i).getCantida_mayor()+" "+ miLista.get(i).getUni_med() +")", df.format(condominio)+"$"});
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

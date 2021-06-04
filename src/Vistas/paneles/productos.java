@@ -152,6 +152,11 @@ public class productos extends javax.swing.JPanel {
         modificar.setFocusPainted(false);
         modificar.setFocusable(false);
         modificar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar2.png"))); // NOI18N
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
+            }
+        });
         add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 550, -1, -1));
 
         limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/barriendo.png"))); // NOI18N
@@ -396,6 +401,7 @@ public class productos extends javax.swing.JPanel {
                     mano_obra_ventas.setText("");
                     cargarCB();
                     cargarmp();
+                    cargar_ing();
                 }
 
             } else {
@@ -475,6 +481,7 @@ public class productos extends javax.swing.JPanel {
             transporte_produc.setText(lista_pro.get(desplegable1.getSelectedIndex()).getTransporte_pro() + "");
             mano_obra_produc.setText(lista_pro.get(desplegable1.getSelectedIndex()).getMano_obra_pro() + "");
             mano_obra_ventas.setText(lista_pro.get(desplegable1.getSelectedIndex()).getMano_obra_v() + "");
+            id_p = lista_pro.get(desplegable1.getSelectedIndex()).getId();
 
             for (int i = 0; i < lista_ing.size(); i++) {
 
@@ -509,7 +516,7 @@ public class productos extends javax.swing.JPanel {
 
                         costo = costo + (listamp.get(i).getPrecio_mp() * Double.parseDouble(jt[i].getText()));
 
-                    } 
+                    }
                 }
             }
             costo_produc.setText(df.format(costo + transporte + mano_p + mano_v) + "$");
@@ -517,6 +524,96 @@ public class productos extends javax.swing.JPanel {
             precio_detal.setText(df.format(((costo + transporte + mano_p + mano_v) + (costo + transporte + mano_p + mano_v) * 0.3) / (Integer) cantidad.getValue()) + "$");
         }
     }//GEN-LAST:event_desplegable1ItemStateChanged
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+
+        if (nombre.getText().equals("") || transporte_produc.getText().equals("") || mano_obra_produc.getText().equals("")
+                || mano_obra_ventas.getText().equals("")) {
+
+            JOptionPane.showMessageDialog(null, "          ¡Campo Vacío!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            boolean vacio;
+            vacio = false;
+
+            for (int i = 0; i < listamp.size(); i++) {
+
+                if (cb[i].isSelected()) {
+
+                    if (jt[i].getText().equals("")) {
+
+                        vacio = true;
+
+                    }
+                }
+            }
+
+            if (vacio == false) {
+
+                OperarProducto op = new OperarProducto();
+                boolean correcto, eliminado, existe;
+                correcto = false;
+
+                for (int i = 0; i < lista_ing.size(); i++) {
+
+                    eliminado = true;
+                    for (int j = 0; j < listamp.size(); j++) {
+
+                        if (lista_ing.get(i).getId_mp_ing() == listamp.get(j).getId_mp()) {
+
+                            if (!cb[j].isSelected()) {
+
+                                eliminado = false;
+                            } else {
+
+                                op.modificar_ingrediente(lista_ing.get(i).getId_ing(), Double.parseDouble(jt[j].getText()));
+                            }
+                        }
+                    }
+                    if (eliminado == false) {
+                        op.borrar_ingrediente(lista_ing.get(i).getId_ing());
+                    }
+                }
+
+                for (int i = 0; i < listamp.size(); i++) {
+
+                    existe = false;
+                    if (cb[i].isSelected()) {
+
+                        existe = op.buscar_ingrediente(listamp.get(i).getId_mp(), id_p);
+
+                        if (!existe) {
+
+                            op.Crear_ingrediente(listamp.get(i).getId_mp(), Double.parseDouble(jt[i].getText()), id_p);
+                        }
+                    }
+                }
+
+                op.modificar(nombre.getText().toUpperCase(), (Integer) cantidad.getValue(), desplegable2.getSelectedItem().toString(),
+                (Integer) cantidad_mayor.getValue(), Double.parseDouble(transporte_produc.getText()), Double.parseDouble(mano_obra_produc.getText()),
+                Double.parseDouble(mano_obra_ventas.getText()), id_p);
+
+                desplegable2.setSelectedIndex(0);
+                desplegable1.setSelectedIndex(-1);
+                precio_detal.setText("");
+                costo_produc.setText("");
+                total_pro.setText("");
+                nombre.setText("");
+                cantidad.setValue(1);
+                cantidad_mayor.setValue(1);
+                transporte_produc.setText("");
+                mano_obra_produc.setText("");
+                mano_obra_ventas.setText("");
+                cargarCB();
+                cargarmp();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "¡Faltan datos en ingredientes!", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_modificarActionPerformed
 
     public void cargarmp() {
 
@@ -592,6 +689,7 @@ public class productos extends javax.swing.JPanel {
     JPanel botones;
     Globales variable = new Globales();
     double costo, transporte, mano_p, mano_v;
+    int id_p = 1;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton calculadora;
