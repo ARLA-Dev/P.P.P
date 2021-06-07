@@ -430,7 +430,7 @@ public class productos extends javax.swing.JPanel {
 
     private void calculadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculadoraActionPerformed
 
-        DecimalFormat df = new DecimalFormat("#.0");
+        DecimalFormat df = new DecimalFormat("#.00");
         costo = 0;
 
         transporte = 0;
@@ -497,7 +497,7 @@ public class productos extends javax.swing.JPanel {
                     }
                 }
             }
-            DecimalFormat df = new DecimalFormat("#.0");
+            DecimalFormat df = new DecimalFormat("#.00");
             costo = 0;
 
             transporte = 0;

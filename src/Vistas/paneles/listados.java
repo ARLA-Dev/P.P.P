@@ -330,7 +330,7 @@ public class listados extends javax.swing.JPanel {
         ArrayList<Modelo> miLista = op.llenar_listdo();
         DefaultTableModel model = (DefaultTableModel) tabla_productos.getModel();
         double detal, mayor, condominio;
-        DecimalFormat df = new DecimalFormat("#.0");
+        DecimalFormat df = new DecimalFormat("#.00");
         
         
         model.setRowCount(0);
