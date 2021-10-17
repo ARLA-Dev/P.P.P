@@ -10,6 +10,7 @@ import java.awt.Desktop;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Inicio extends javax.swing.JFrame {
@@ -17,6 +18,7 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo200x200.png")).getImage());
         DateTimeFormatter formateador = DateTimeFormatter.ofPattern("hh:mm:ss a");
         reloj.setText(formateador.format(LocalDateTime.now()));
         reloj();
@@ -290,7 +292,7 @@ public class Inicio extends javax.swing.JFrame {
     private void dolarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dolarActionPerformed
         try {
 
-            Desktop.getDesktop().browse(new URL("https://www.instagram.com/enparalelovzla/?hl=es-la").toURI());
+            Desktop.getDesktop().browse(new URL("https://alcambio.app/#/").toURI());
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -339,8 +341,10 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_listadosActionPerformed
 
     private void documentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documentosActionPerformed
-
+        
         botones.setVisible(false);
+        docu.cargarCB();
+        docu.cargar_producto();
         docu.setVisible(true);
 
     }//GEN-LAST:event_documentosActionPerformed

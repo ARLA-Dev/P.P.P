@@ -362,7 +362,6 @@ public class productos extends javax.swing.JPanel {
 
                     }
                 }
-
             }
 
             if (vacio == false) {
@@ -634,10 +633,8 @@ public class productos extends javax.swing.JPanel {
 
                 cb[i] = new JCheckBox(listamp.get(i).getNombre_mp());
                 cb[i].setFont(new Font("Arial", Font.BOLD, 12));
-                //cb[i].setSelected(false);
                 jt[i] = new JTextField();
                 jt[i].setFont(new Font("Arial", Font.BOLD, 12));
-                //jt[i].setText("");
                 jl[i] = new JLabel(listamp.get(i).getPrecio_mp() + "$ / " + listamp.get(i).getUnidad_medida_mp());
                 jl[i].setFont(new Font("Arial", Font.BOLD, 12));
                 mp.add(cb[i]);

@@ -91,7 +91,15 @@ public class Modelo {
     //Tabla Producto
     
     String nombre_pro, uni_med;
-    double transporte_pro, mano_obra_pro, mano_obra_v;
+    double transporte_pro, mano_obra_pro, mano_obra_v, total;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
     int cantidad_pro, cantida_mayor, id; 
 
     public String getNombre_pro() {

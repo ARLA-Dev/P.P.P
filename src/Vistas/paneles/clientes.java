@@ -178,7 +178,7 @@ public class clientes extends javax.swing.JPanel {
         add(titulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 530, -1, -1));
 
         desplegable2.setFont(new java.awt.Font("Britannic Bold", 0, 18)); // NOI18N
-        desplegable2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V-", "J-" }));
+        desplegable2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "V-", "E-", "J-" }));
         desplegable2.setBorder(null);
         desplegable2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         desplegable2.setOpaque(false);
@@ -246,7 +246,6 @@ public class clientes extends javax.swing.JPanel {
             rif.setText("");
             nombre.setText("");
         }
-
     }//GEN-LAST:event_crearActionPerformed
 
     private void desplegable1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_desplegable1ItemStateChanged
@@ -266,7 +265,6 @@ public class clientes extends javax.swing.JPanel {
             letra = letra.substring(2);
             rif.setText(letra);
         }
-
     }//GEN-LAST:event_desplegable1ItemStateChanged
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed

@@ -3,6 +3,7 @@ package Vistas;
 import BD.BDConex;
 import BD.OperarLogin;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -10,6 +11,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logo200x200.png")).getImage());
     }
 
     @SuppressWarnings("unchecked")
